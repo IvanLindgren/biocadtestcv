@@ -20,59 +20,53 @@ class ImageComparisonApp:
         self.root.title("Сравнение изображений упаковок")
         self.root.geometry("1200x800")
 
-        # Инициализация переменных
+        
         self.selected_folder = tk.StringVar(value="Clarinase 14 repetabs")
         self.image_path = None
         self.image_name = tk.StringVar()
         self.save_path = None
 
-        # Создание интерфейса
+       
         self.create_widgets()
 
     def create_widgets(self):
-        # Фрейм для загрузки изображений
+        
         load_frame = ttk.LabelFrame(self.root, text="Загрузка изображения")
         load_frame.pack(fill="x", padx=10, pady=10)
 
-        # Кнопка загрузки изображения
+        
         load_button = ttk.Button(load_frame, text="Загрузить изображение", command=self.load_image)
         load_button.pack(side="left", padx=5, pady=5)
 
-        # Поле для ввода названия изображения
+        
         name_label = ttk.Label(load_frame, text="Название:")
         name_label.pack(side="left", padx=5)
         name_entry = ttk.Entry(load_frame, textvariable=self.image_name)
         name_entry.pack(side="left", padx=5)
 
-        # Выбор папки для сохранения
+        
         folder_label = ttk.Label(load_frame, text="Папка:")
         folder_label.pack(side="left", padx=5)
         folder_option = ttk.OptionMenu(load_frame, self.selected_folder, "Clarinase 14 repetabs",
                                        "Clarinase 14 repetabs", "Claritine 20 tablets")
         folder_option.pack(side="left", padx=5)
-
-        # Кнопка сохранения
+        
         save_button = ttk.Button(load_frame, text="Сохранить", command=self.save_image)
         save_button.pack(side="left", padx=5, pady=5)
 
-        # Разделитель
         separator = ttk.Separator(self.root, orient='horizontal')
         separator.pack(fill='x', padx=10, pady=10)
 
-        # Кнопка начала сравнения
         compare_button = ttk.Button(self.root, text="Начать процесс сравнения изображений",
                                     command=self.start_comparison_thread)
         compare_button.pack(pady=10)
 
-        # Индикатор прогресса
         self.progress = ttk.Progressbar(self.root, orient='horizontal', length=400, mode='determinate')
         self.progress.pack(pady=10)
 
-        # Область для отображения результатов с добавлением скроллбара
         self.create_scrollable_result_frame()
 
-        # Нижний текст
-        footer = ttk.Label(self.root, text="Выполнено как тестовое задание для компании Biocad", font=("Arial", 10))
+        footer = ttk.Label(self.root, text="Выполнено как тестовое задание для компании Biocad, Автор: Корнилов Денис Андреевич", font=("Arial", 10))
         footer.pack(side="bottom", pady=10)
 
     def create_scrollable_result_frame(self):
@@ -80,28 +74,21 @@ class ImageComparisonApp:
         # Фрейм, содержащий Canvas и Scrollbar
         container = ttk.Frame(self.root)
         container.pack(fill="both", expand=True, padx=10, pady=10)
-
-        # Создание Canvas
+        
         self.canvas = tk.Canvas(container, borderwidth=0, background="#f0f0f0")
         self.canvas.pack(side="left", fill="both", expand=True)
 
-        # Создание вертикального Scrollbar
         scrollbar = ttk.Scrollbar(container, orient="vertical", command=self.canvas.yview)
         scrollbar.pack(side="right", fill="y")
-
-        # Настройка прокрутки Canvas
+        
         self.canvas.configure(yscrollcommand=scrollbar.set)
 
-        # Создание внутреннего фрейма для результатов
         self.result_frame = tk.Frame(self.canvas, background="#f0f0f0")
 
-        # Добавление окна внутрь Canvas
         self.canvas.create_window((0, 0), window=self.result_frame, anchor="nw")
-
-        # Обновление прокрутки при изменении размера внутреннего фрейма
+    
         self.result_frame.bind("<Configure>", self.on_frame_configure)
 
-        # Обработка колесика мыши для прокрутки
         self.canvas.bind_all("<MouseWheel>", self.on_mousewheel)
 
     def on_frame_configure(self, event):
@@ -150,7 +137,6 @@ class ImageComparisonApp:
         thread.start()
 
     def compare_images(self):
-        # Отключаем виджеты
         self.root.after(0, self.disable_widgets)
 
         # Очистка предыдущих результатов
@@ -214,22 +200,22 @@ class ImageComparisonApp:
                 # Обновление прогресс-бара
                 self.root.after(0, self.update_progress, 1)
 
-            # Создание графиков схожести
+            
             charts_paths[folder] = create_similarity_chart(folder, results[folder], OUTPUT_DIR)
 
-        # Создание Excel отчета
+        
         excel_report_path = create_excel_report(results, OUTPUT_DIR)
 
-        # Генерация текстового отчета
+        
         generate_text_report(results, OUTPUT_DIR, excel_report_path, charts_paths)
 
-        # Отображение результатов в GUI
+        
         self.root.after(0, self.display_results, results, charts_paths, low_similarity_images)
 
-        # Включение кнопок для открытия отчетов
+        
         self.root.after(0, self.add_report_buttons)
 
-        # Включение виджетов
+        
         self.root.after(0, self.enable_widgets)
 
         # Сообщение об окончании процесса
