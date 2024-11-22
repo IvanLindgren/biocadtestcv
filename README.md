@@ -17,19 +17,21 @@ A Python Tkinter application that compares packaging images, highlights their di
 
 ### 1. Клонировать репозиторий
 
-```bash
-git clone https://github.com/ваш-репозиторий/testBiocad.git
+
+- git clone https://github.com/ваш-репозиторий/testBiocad.git
 
 ### 2. Перейти в директорию проекта
-```cd testBiocad
+- cd testBiocad
+
 
 ### 3. Установить зависимости
-```pip install -r requirements.txt
+- pip install -r requirements.txt
 
 ### 4. Запустить приложение
-``python main.py
+- python main.py
 
 ## Требования
+```
 Python 3.12
 Установленные зависимости, указанные в requirements.txt:
 Tkinter
@@ -38,6 +40,7 @@ OpenCV
 scikit-image
 Matplotlib
 openpyxl
+```
 
 ## Использование
 1) Загрузка изображения:
