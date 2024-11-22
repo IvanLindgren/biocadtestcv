@@ -26,7 +26,7 @@ def calculate_similarity(img1: np.ndarray, img2: np.ndarray) -> tuple[float, np.
         img_as_float(img1),
         img_as_float(img2),
         full=True,
-        data_range=1.0  # Добавляем data_range
+        data_range=1.0  
     )
     return score * 100, diff
 
