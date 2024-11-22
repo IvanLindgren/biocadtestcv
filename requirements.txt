@@ -1,0 +1,8 @@
+opencv-contrib-python
+numpy
+matplotlib
+scikit-image
+tqdm
+pandas
+openpyxl
+Pillow
